@@ -4,7 +4,10 @@ import fastifyStatic from '@fastify/static';
 import fastifyCookie from '@fastify/cookie';
 import { config } from './config.js';
 import { MikroTikClient } from './mikrotik/client.js';
+import { MockMikroTikClient } from './mikrotik/mock.js';
 import { PollingService } from './mikrotik/polling.js';
+
+const DEMO_MODE = process.env.DEMO === 'true' || process.env.DEMO === '1';
 import { authRoutes } from './auth/routes.js';
 import { authMiddleware } from './auth/middleware.js';
 import { peersRoutes } from './routes/peers.js';
@@ -25,8 +28,12 @@ await app.register(fastifyWebsocket);
 // Decorators
 app.decorate('config', config);
 
-const mikrotik = new MikroTikClient(config.router.host, config.router.user, config.router.pass);
+const mikrotik = DEMO_MODE
+  ? new MockMikroTikClient()
+  : new MikroTikClient(config.router.host, config.router.user, config.router.pass);
 app.decorate('mikrotik', mikrotik);
+
+if (DEMO_MODE) app.log.info('🎭 DEMO MODE — using mock MikroTik data');
 
 const polling = new PollingService(mikrotik, config.wg.interface);
 app.decorate('polling', polling);

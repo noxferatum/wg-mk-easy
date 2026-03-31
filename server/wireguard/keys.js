@@ -1,5 +1,6 @@
 import nacl from 'tweetnacl';
-import { encodeBase64 } from 'tweetnacl-util';
+import pkg from 'tweetnacl-util';
+const { encodeBase64 } = pkg;
 
 export function generateKeyPair() {
   const keyPair = nacl.box.keyPair();
