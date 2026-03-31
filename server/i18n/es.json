@@ -1,0 +1,8 @@
+{
+  "app": { "title": "wg-mk-easy", "subtitle": "Gestor WireGuard para MikroTik" },
+  "auth": { "login": "Iniciar sesión", "logout": "Cerrar sesión", "password": "Contraseña", "wrongPassword": "Contraseña incorrecta", "enter": "Entrar" },
+  "nav": { "dashboard": "Panel", "peers": "Peers", "settings": "Ajustes" },
+  "dashboard": { "totalPeers": "Peers totales", "online": "En línea", "offline": "Desconectados", "traffic": "Tráfico" },
+  "peers": { "title": "Peers", "create": "Nuevo Peer", "name": "Nombre", "address": "Dirección", "status": "Estado", "lastSeen": "Última conexión", "upload": "Subida", "download": "Bajada", "online": "Conectado", "offline": "Desconectado", "delete": "Eliminar", "confirmDelete": "¿Eliminar este peer?", "enable": "Habilitar", "disable": "Deshabilitar", "downloadConfig": "Descargar Config", "showQr": "Mostrar QR", "noName": "Sin nombre" },
+  "settings": { "title": "Ajustes", "theme": "Tema", "language": "Idioma", "dark": "Oscuro", "light": "Claro", "system": "Sistema", "router": "Conexión al Router", "host": "Host", "user": "Usuario", "wgConfig": "Configuración WireGuard", "endpoint": "Endpoint", "dns": "DNS", "allowedIps": "IPs permitidas", "save": "Guardar" }
+}
