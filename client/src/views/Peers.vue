@@ -70,16 +70,24 @@ onMounted(() => peersStore.fetchPeers());
 async function handleShowQr(peer) {
   try {
     const res = await fetch(`/api/peers/${peer.id}/qr`);
+    if (!res.ok) {
+      alert(t('peers.qrNotAvailable') || 'QR not available. Re-create the peer to get a new QR code.');
+      return;
+    }
     const data = await res.json();
     qrPeer.value = { name: peer.name, qr: data.qr, config: data.config };
   } catch {
-    // ignore
+    alert(t('peers.qrNotAvailable') || 'QR not available.');
   }
 }
 
 async function handleDownload(peer) {
   try {
-    const res = await fetch(`/api/peers/${peer.id}/config`);
+    const res = await fetch(`/api/peers/${peer.id}/qr`);
+    if (!res.ok) {
+      alert(t('peers.qrNotAvailable') || 'Config not available. Re-create the peer.');
+      return;
+    }
     const data = await res.json();
     const blob = new Blob([data.config], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);

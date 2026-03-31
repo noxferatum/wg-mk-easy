@@ -66,19 +66,31 @@ const props = defineProps({
 
 defineEmits(['show-qr', 'download', 'toggle', 'delete']);
 
+// lastHandshake is a RouterOS duration string like "45s", "2h15m", "0s"
+function parseHandshakeSeconds(str) {
+  if (!str || str === '0s') return Infinity;
+  let total = 0;
+  const parts = str.match(/(\d+)(w|d|h|m|s)/g) || [];
+  for (const part of parts) {
+    const num = parseInt(part);
+    if (part.endsWith('w')) total += num * 604800;
+    else if (part.endsWith('d')) total += num * 86400;
+    else if (part.endsWith('h')) total += num * 3600;
+    else if (part.endsWith('m')) total += num * 60;
+    else if (part.endsWith('s')) total += num;
+  }
+  return total;
+}
+
 const isOnline = computed(() => {
-  if (!props.peer.lastHandshake) return false;
-  const diff = Date.now() - new Date(props.peer.lastHandshake).getTime();
-  return diff < 3 * 60 * 1000; // 3 minutes
+  const seconds = parseHandshakeSeconds(props.peer.lastHandshake);
+  return seconds < 180;
 });
 
 const lastSeenText = computed(() => {
-  if (!props.peer.lastHandshake) return '-';
-  const diff = Date.now() - new Date(props.peer.lastHandshake).getTime();
-  if (diff < 60_000) return '< 1 min';
-  if (diff < 3600_000) return `${Math.floor(diff / 60_000)} min`;
-  if (diff < 86400_000) return `${Math.floor(diff / 3600_000)} h`;
-  return `${Math.floor(diff / 86400_000)} d`;
+  const str = props.peer.lastHandshake;
+  if (!str || str === '0s') return '-';
+  return str;
 });
 
 function formatBytes(bytes) {

@@ -18,4 +18,5 @@ export const config = {
   },
   lang: process.env.LANG || 'en',
   tz: process.env.TZ || 'Europe/Madrid',
+  dataDir: process.env.DATA_DIR || './data',
 };
