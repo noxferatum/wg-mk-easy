@@ -1,0 +1,10 @@
+services:
+  wg-mk-easy:
+    build: .
+    container_name: wg-mk-easy
+    restart: unless-stopped
+    ports:
+      - "51821:3000"
+    volumes:
+      - ./data:/data
+    env_file: .env
